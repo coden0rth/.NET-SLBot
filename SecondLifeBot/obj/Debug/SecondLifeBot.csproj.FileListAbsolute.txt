@@ -61,3 +61,12 @@ C:\Users\jkram\source\repos\SecondLifeBot\SecondLifeBot\bin\Debug\System.Threadi
 C:\Users\jkram\source\repos\SecondLifeBot\SecondLifeBot\obj\Debug\SecondLifeBot.csproj.CopyComplete
 C:\Users\jkram\source\repos\SecondLifeBot\SecondLifeBot\obj\Debug\SecondLifeBot.exe
 C:\Users\jkram\source\repos\SecondLifeBot\SecondLifeBot\obj\Debug\SecondLifeBot.pdb
+C:\Users\jkram\source\repos\SecondLifeBot\SecondLifeBot\bin\Debug\Config\config.json
+C:\Users\jkram\source\repos\SecondLifeBot\SecondLifeBot\bin\Debug\Newtonsoft.Json.dll
+C:\Users\jkram\source\repos\SecondLifeBot\SecondLifeBot\bin\Debug\System.Text.Encodings.Web.dll
+C:\Users\jkram\source\repos\SecondLifeBot\SecondLifeBot\bin\Debug\System.Text.Json.dll
+C:\Users\jkram\source\repos\SecondLifeBot\SecondLifeBot\bin\Debug\System.ValueTuple.dll
+C:\Users\jkram\source\repos\SecondLifeBot\SecondLifeBot\bin\Debug\Newtonsoft.Json.xml
+C:\Users\jkram\source\repos\SecondLifeBot\SecondLifeBot\bin\Debug\System.Text.Encodings.Web.xml
+C:\Users\jkram\source\repos\SecondLifeBot\SecondLifeBot\bin\Debug\System.Text.Json.xml
+C:\Users\jkram\source\repos\SecondLifeBot\SecondLifeBot\bin\Debug\System.ValueTuple.xml

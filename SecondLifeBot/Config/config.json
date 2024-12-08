@@ -1,0 +1,22 @@
+{
+  "FirstName": "comfycode",
+  "LastName": "Resident",
+  "Password": "",
+  "PatrolPoints": [
+    { "X": 212, "Y": 128, "Z": 25 },
+    { "X": 208, "Y": 111, "Z": 24 },
+    { "X": 206, "Y": 117, "Z": 24 },
+    { "X": 167, "Y": 117, "Z": 24 },
+    { "X": 125, "Y": 117, "Z": 24 },
+    { "X": 77, "Y": 117, "Z": 24 },
+    { "X": 44, "Y": 117, "Z": 24 },
+    { "X": 8, "Y": 117, "Z": 24 }
+  ],
+  "AdminList": [
+    "1f0ee634-151d-41b6-afab-89ea0d7d0784"
+  ],
+  "SearchHoverText": [
+        "Game Offline",
+        "Game Down"
+  ]
+}

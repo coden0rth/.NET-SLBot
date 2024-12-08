@@ -9,6 +9,7 @@ namespace SecondLifeBot
         {
             Regular,
             Info,
+            Warn,
             Alert
         }
         public static void C(string message, MessageType type = MessageType.Regular)
@@ -26,12 +27,17 @@ namespace SecondLifeBot
                     break;
 
                 case MessageType.Info:
-                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.WriteLine($"{prefix} [INFO] {message}");
                     break;
 
                 case MessageType.Regular:
                     Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"{prefix} {message}");
+                    break;
+
+                case MessageType.Warn:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"{prefix} {message}");
                     break;
             }
@@ -44,7 +50,7 @@ namespace SecondLifeBot
             ConsoleColor originalColor = Console.ForegroundColor;
 
             string appName = "SecondLifeBot";
-            string author = "Kyle Rambeau";
+            string author = "Kyle Rambeau - coden0rth";
             string version = "Version 1.0";
             string description = "An automation bot for Duck Seoyung";
 
