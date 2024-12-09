@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using LibreMetaverse;
 using OpenMetaverse;
 
 namespace SecondLifeBot

@@ -1,6 +1,6 @@
 # SecondLifeBot
 
-**SecondLifeBot** is an automation bot for Second Life developed in C# using the LibreMetaverse framework. It features patrol point navigation, object scanning, and customizable configurations, making it an ideal tool for automating various in-world tasks.
+**SecondLifeBot** is an automation bot for Second Life developed in C# using the OpenMetaverse framework. It features patrol point navigation, object scanning, and customizable configurations, making it an ideal tool for automating various in-world tasks.
 
 ---
 
@@ -19,7 +19,7 @@
 
 - **.NET Version**: Requires .NET Core 6.0 or higher.
 - **Dependencies**:
-  - LibreMetaverse
+  - OpenMetaverse
 
 ---
 
@@ -32,7 +32,7 @@
    ```
 
 2. Install dependencies:
-   - Use your favorite NuGet package manager to install the `LibreMetaverse` library.
+   - Use your favorite NuGet package manager to install the `OpenMetaverse` library.
 
 3. Build the project using Visual Studio or the .NET CLI:
    ```bash
@@ -43,7 +43,7 @@
 
 ## Configuration
 
-The bot uses a JSON configuration file named `botConfig.json`. Below is an example structure:
+The bot uses a JSON configuration file named `config.json`. Below is an example structure:
 
 ```json
 {
@@ -88,7 +88,7 @@ Place this file in the `Config/` directory.
    ```
 
 2. The bot will:
-   - Log in using the credentials from `botConfig.json`.
+   - Log in using the credentials from `config.json`.
    - Begin patrolling the defined points.
    - Listen for commands from the admin list.
 
@@ -149,4 +149,4 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 ## Acknowledgments
 
-Special thanks to the LibreMetaverse community for their framework and support!
+Special thanks to the OpenMetaverse community for their framework and support!
