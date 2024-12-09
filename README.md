@@ -103,7 +103,8 @@ The bot supports the following commands via instant messages:
 - `Movement.cs`: Manages bot movement and obstacle avoidance.
 - `ObjectScanner.cs`: Handles object scanning during patrol.
 - `Commands.cs`: Processes commands sent by admins.
-- `BotConfig.cs`: Defines the structure for the configuration file.
+- `BotConfiguration.cs`: Defines the structure for the configuration file.
+- `Loader.cs`: Handles loading and processing the configuration file data.
 
 ---
 
