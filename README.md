@@ -1,6 +1,6 @@
 # SecondLifeBot
 
-**SecondLifeBot** is an automation bot for Second Life developed in C# using the OpenMetaverse framework. It features patrol point navigation, object scanning, and customizable configurations, making it an ideal tool for automating various in-world tasks.
+**SecondLifeBot** is an automation bot for Second Life developed in C# using the LibreMetaverse framework. It features patrol point navigation, object scanning, and customizable configurations, making it an ideal tool for automating various in-world tasks.
 
 ---
 
@@ -8,7 +8,8 @@
 
 - **Patrol Navigation**: The bot moves between predefined patrol points while scanning for objects with specific hover text.
 - **Object Scanning**: Detects objects based on hover text and logs relevant information.
-- **Configurable**: Supports configuration through a JSON file, allowing easy setup for patrol points, login credentials, and admin management.
+- **Messaging**: Built-in functionality to send instant messages (IMs) to a single user or all admins.
+- **Configurable**: Supports configuration through a JSON file, allowing easy setup for patrol points, login credentials, search criteria, and admin management.
 - **Command System**: Admins can send commands to the bot for dynamic control.
 - **Event Handling**: Gracefully handles events like login, avatar loading, and disconnection.
 
@@ -31,7 +32,7 @@
    ```
 
 2. Install dependencies:
-   - Use your favorite NuGet package manager to install the `OpenMetaverse` library.
+   - Use your favorite NuGet package manager to install the `LibreMetaverse` library.
 
 3. Build the project using Visual Studio or the .NET CLI:
    ```bash
@@ -49,6 +50,8 @@ The bot uses a JSON configuration file named `botConfig.json`. Below is an examp
   "FirstName": "comfycode",
   "LastName": "Resident",
   "Password": "your-password",
+  "StartRegion": "Krown",
+  "StartPosition": { "X": 245, "Y": 128, "Z": 28 },
   "PatrolPoints": [
     { "X": 212, "Y": 128, "Z": 25 },
     { "X": 208, "Y": 111, "Z": 24 },
@@ -56,6 +59,10 @@ The bot uses a JSON configuration file named `botConfig.json`. Below is an examp
   ],
   "AdminList": [
     "1f0ee634-151d-41b6-afab-89ea0d7d0784"
+  ],
+  "SearchHoverText": [
+    "Game Offline",
+    "Score Updated"
   ]
 }
 ```
@@ -67,8 +74,9 @@ The bot uses a JSON configuration file named `botConfig.json`. Below is an examp
 - **Password**: The password for the bot's Second Life account.
 - **PatrolPoints**: A list of coordinates defining the patrol path.
 - **AdminList**: A list of UUIDs allowed to issue commands to the bot.
+- **SearchHoverText**: A list of strings to match against object hover text during scans.
 
-Place this file in the same directory as the executable.
+Place this file in the `Config/` directory.
 
 ---
 
@@ -88,23 +96,37 @@ Place this file in the same directory as the executable.
 
 ## Commands
 
-The bot supports the following commands via instant messages:
+The bot will soon support commands via messages.
 
-- **scan region**: Initiates a region scan for objects with hover text.
-- **restart patrol**: Restarts the patrol process from the beginning.
-- **stop patrol**: Stops the patrol process.
+---
+
+## BotManager Documentation
+
+### Methods
+
+#### `void Teleport(string regionName, Vector3 position)`
+- Teleports the bot to a specified region and position.
+- Logs the status of the teleport request.
+
+#### `void SendIM(UUID targetUUID, string message)`
+- Sends an instant message to a specific UUID.
+- Logs the target UUID and message content.
+
+#### `void SendIMToAdmins(string message)`
+- Sends an instant message to all admins defined in the configuration.
+- Logs the message content and delivery status.
 
 ---
 
 ## Project Structure
 
 - `Program.cs`: The entry point of the application.
-- `BotManager.cs`: Handles bot-specific actions like teleportation.
+- `BotManager.cs`: Handles bot-specific actions like teleportation and messaging.
 - `Movement.cs`: Manages bot movement and obstacle avoidance.
 - `ObjectScanner.cs`: Handles object scanning during patrol.
 - `Commands.cs`: Processes commands sent by admins.
 - `BotConfiguration.cs`: Defines the structure for the configuration file.
-- `Loader.cs`: Handles loading and processing the configuration file data.
+- `Loader.cs`: Handles loading and parsing of the configuration.
 
 ---
 
@@ -127,4 +149,4 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 ## Acknowledgments
 
-Special thanks to the OpenMetaverse community for their framework and support!
+Special thanks to the LibreMetaverse community for their framework and support!
