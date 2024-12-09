@@ -26,10 +26,9 @@ namespace SecondLifeBot
         private void HandleIM(object sender, InstantMessageEventArgs e)
         {
             Console.WriteLine(e.IM.FromAgentID);
-            if (adminList.Contains(e.IM.FromAgentID))
+            if (!adminList.Contains(e.IM.FromAgentID))
             {
                 Logger.C($"Unauthorized IM from {e.IM.FromAgentName}. Ignoring.", Logger.MessageType.Alert);
-                BotManager.SendIMToAdmins("a user tried to do something");
                 return;
             }
 
@@ -44,7 +43,8 @@ namespace SecondLifeBot
             string message = e.IM.Message.Trim().ToLower();
 
             switch (message)
-            {
+            {   
+      
                 default:
                     Logger.C($"Unknown command received: {message}", Logger.MessageType.Info);
                     break;
