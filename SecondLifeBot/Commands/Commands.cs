@@ -11,10 +11,13 @@ namespace SecondLifeBot
         private readonly GridClient client;
         private readonly List<UUID> adminList;
         private readonly ObjectScanner objectScanner;
-        public Commands(GridClient client, List<UUID> adminList, ObjectScanner objectScanner)
+        private readonly BotConfiguration config;
+
+        public Commands(GridClient client, BotConfiguration config, ObjectScanner objectScanner)
         {
             this.client = client;
-            this.adminList = adminList;
+            this.adminList = config.AdminList;
+            this.config = config;
             this.objectScanner = objectScanner;
             this.client.Self.IM += HandleIM;
             this.client.Objects.ObjectUpdate += async (sender, e) => await HandleObjectUpdateAsync(sender, e);
@@ -22,9 +25,11 @@ namespace SecondLifeBot
 
         private void HandleIM(object sender, InstantMessageEventArgs e)
         {
-            if (this.adminList.Contains(e.IM.FromAgentID))
+            Console.WriteLine(e.IM.FromAgentID);
+            if (adminList.Contains(e.IM.FromAgentID))
             {
                 Logger.C($"Unauthorized IM from {e.IM.FromAgentName}. Ignoring.", Logger.MessageType.Alert);
+                BotManager.SendIMToAdmins("a user tried to do something");
                 return;
             }
 
@@ -56,18 +61,26 @@ namespace SecondLifeBot
             await Task.Run(() =>
             {
                 string hoverText = e.Prim.Text;
+
                 if (!string.IsNullOrEmpty(hoverText))
                 {
-                    if (hoverText.IndexOf("with a score of", StringComparison.OrdinalIgnoreCase) >= 0)
+                    foreach (var criteria in this.config.SearchHoverText)
                     {
-                        Logger.C($"Matching Object Found: Name: {e.Prim.Properties?.Name}, Hover Text: '{hoverText}', ID: {e.Prim.ID}", Logger.MessageType.Alert);
+                        if (hoverText.IndexOf(criteria, StringComparison.OrdinalIgnoreCase) >= 0)
+                        {
+                            string name = e.Prim.Properties?.Name ?? "Unknown";
+                            UUID id = e.Prim.ID;
+                            uint parentId = e.Prim.ParentID;
+                            Logger.C($"Detected Object Found: Name: {name}, Hover Text: '{hoverText}', ID: {id}", Logger.MessageType.Alert);                       
+                            BotManager.SendIMToAdmins($"Matching Object Found: Name: {name}, Hover Text: '{hoverText}', ID: {id}, Parent ID: {parentId}");
 
+                            break; 
+                        }
                     }
-                }
-                else
-                {
                 }
             });
         }
+
+
     }
 }

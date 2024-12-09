@@ -15,10 +15,12 @@
     { "X": 8, "Y": 117, "Z": 24 }
   ],
   "AdminList": [
-    "1f0ee634-151d-41b6-afab-89ea0d7d0784"
+    "1f0ee634-151d-41b6-afab-89ea0d7d0784",
+    "db9f949d-1717-4152-8cbc-4fd0614c9c4b"
   ],
   "SearchHoverText": [
         "Game Offline",
-        "Game Down"
+        "Game Down",
+        "System Error"
   ]
 }

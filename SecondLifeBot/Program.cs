@@ -30,7 +30,7 @@ namespace SecondLifeBot
             BotManager.Initialize(client, config);
             movement = new Movement(client);
             objectScanner = new ObjectScanner(client, movement, config.PatrolPoints, config.SearchHoverText);
-            commands = new Commands(client, config.AdminList, objectScanner);
+            commands = new Commands(client, config, objectScanner);
             loginManager = new LoginManager(client);
 
             Settings.LOG_LEVEL = Helpers.LogLevel.None;
