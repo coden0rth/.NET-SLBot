@@ -45,7 +45,7 @@ namespace SecondLifeBot
                 if (avatarLoaded)
                 {
                     avatarLoaded = false;
-                    botManager.Teleport("Krown", new Vector3(245f, 128f, 28f));
+                    botManager.Teleport(config.StartRegion, config.StartPosition);
                     await movementScanner.StartPatrolAsync();
                 }
 

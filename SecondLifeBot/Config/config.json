@@ -2,6 +2,8 @@
   "FirstName": "comfycode",
   "LastName": "Resident",
   "Password": "",
+  "StartRegion": "Krown",
+  "StartPosition": { "X": 245, "Y": 128, "Z": 28 },
   "PatrolPoints": [
     { "X": 212, "Y": 128, "Z": 25 },
     { "X": 208, "Y": 111, "Z": 24 },
