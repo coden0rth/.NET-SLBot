@@ -13,6 +13,8 @@ namespace SecondLifeBot
         private int _currentPatrolIndex;
         private bool _stopPatrol;
         private readonly List<string> _searchCriteria;
+
+        public static EventHandler<string> AlertDetection;
         public ObjectScanner(GridClient client, Movement movement, List<Vector3> patrolPoints, List<string> hoverTextSearch)
         {
             _client = client;
@@ -102,7 +104,8 @@ namespace SecondLifeBot
                 {
                     if (!string.IsNullOrEmpty(prim.Text) && prim.Text.IndexOf(criteria, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
-                        Logger.C($"Matching Object Found: Name: {prim.Properties.Name}, Hover Text: '{prim.Text}', ID: {prim.ID}", Logger.MessageType.Alert);
+                        Logger.C($"Matching Object Found: Name: {prim.Properties.Name}, Hover Text: '{prim.Text}', ID: {prim.ID}, Parent ID: {prim.ParentID}", Logger.MessageType.Alert);
+                        BotManager.SendIMToAdmins($"Matching Object Found: Name: {prim.Properties.Name}, Hover Text: '{prim.Text}', ID: {prim.ID}, Parent ID: {prim.ParentID}");
                     }
                 }
             }

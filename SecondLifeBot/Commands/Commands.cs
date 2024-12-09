@@ -10,14 +10,12 @@ namespace SecondLifeBot
     {
         private readonly GridClient client;
         private readonly List<UUID> adminList;
-        private readonly BotManager botManager;
-        private readonly ObjectScanner movementScanner;
-        public Commands(GridClient client, List<UUID> adminList, BotManager botManager, ObjectScanner movementScanner)
+        private readonly ObjectScanner objectScanner;
+        public Commands(GridClient client, List<UUID> adminList, ObjectScanner objectScanner)
         {
             this.client = client;
             this.adminList = adminList;
-            this.botManager = botManager;
-            this.movementScanner = movementScanner;
+            this.objectScanner = objectScanner;
             this.client.Self.IM += HandleIM;
             this.client.Objects.ObjectUpdate += async (sender, e) => await HandleObjectUpdateAsync(sender, e);
         }

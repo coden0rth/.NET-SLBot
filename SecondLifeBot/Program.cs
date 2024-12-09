@@ -14,8 +14,7 @@ namespace SecondLifeBot
     {
         static readonly GridClient client = new GridClient();
         static LoginManager loginManager;
-        static BotManager botManager;
-        static ObjectScanner movementScanner;
+        static ObjectScanner objectScanner;
         static Commands commands;
         static Movement movement;
 
@@ -28,10 +27,10 @@ namespace SecondLifeBot
         {
             Logger.Init();
             config = Loader.LoadConfiguration("Config/config.json");
-            botManager = new BotManager(client);
+            BotManager.Initialize(client, config);
             movement = new Movement(client);
-            movementScanner = new ObjectScanner(client, movement, config.PatrolPoints, config.SearchHoverText);
-            commands = new Commands(client, config.AdminList, botManager, movementScanner);
+            objectScanner = new ObjectScanner(client, movement, config.PatrolPoints, config.SearchHoverText);
+            commands = new Commands(client, config.AdminList, objectScanner);
             loginManager = new LoginManager(client);
 
             Settings.LOG_LEVEL = Helpers.LogLevel.None;
@@ -45,8 +44,8 @@ namespace SecondLifeBot
                 if (avatarLoaded)
                 {
                     avatarLoaded = false;
-                    botManager.Teleport(config.StartRegion, config.StartPosition);
-                    await movementScanner.StartPatrolAsync();
+                    BotManager.Teleport(config.StartRegion, config.StartPosition);
+                    await objectScanner.StartPatrolAsync();
                 }
 
                 await Task.Delay(100);
