@@ -42,8 +42,10 @@ namespace SecondLifeBot
             string message = e.IM.Message.Trim().ToLower();
 
             switch (message)
-            {   
-      
+            {
+                case "cometome":
+                    BotManager.WalkToPlayer(e.IM.FromAgentID);
+                    break;
                 default:
                     Logger.C($"Unknown command received: {message}", Logger.MessageType.Info);
                     break;

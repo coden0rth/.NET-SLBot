@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenMetaverse;
+using System.Threading;
+
 
 namespace SecondLifeBot
 {
@@ -16,7 +18,63 @@ namespace SecondLifeBot
             _client.Self.Movement.SendUpdate();
             _config = config;
         }
+        public static void WalkToPlayer(UUID playerUUID)
+        {
+            Avatar targetAvatar = null;
 
+            foreach (var avatar in _client.Network.CurrentSim.ObjectsAvatars.Values)
+            {
+                if (avatar.ID == playerUUID)
+                {
+                    targetAvatar = avatar;
+                    break;
+                }
+            }
+
+            if (targetAvatar != null)
+            {
+                Vector3 playerPosition = targetAvatar.Position;
+                Logger.C($"Walking to player at position: {playerPosition}", Logger.MessageType.Info);
+
+                StandOnGround();
+
+                _client.Self.Movement.TurnToward(playerPosition);
+                _client.Self.Movement.AtPos = true;
+
+                while (Vector3.Distance(_client.Self.SimPosition, playerPosition) > 2.0f)
+                {
+                    _client.Self.Movement.SendUpdate();
+                    System.Threading.Thread.Sleep(100);
+                }
+
+                _client.Self.Movement.AtPos = false;
+                _client.Self.Movement.SendUpdate();
+                Logger.C("Arrived at the player's location.", Logger.MessageType.Info);
+            }
+            else
+            {
+                Logger.C("Player not found in the current region.", Logger.MessageType.Alert);
+            }
+        }
+
+
+        public static void StandOnGround()
+        {
+            if (_client.Self.Movement.Fly)
+            {
+                Logger.C("Bot is currently flying. Stopping fly mode...", Logger.MessageType.Info);
+                _client.Self.Movement.Fly = false;
+                _client.Self.Movement.SendUpdate();
+            }
+
+            if (_client.Self.SittingOn != 0)
+            {
+                Logger.C("Bot is sitting. Standing up...", Logger.MessageType.Info);
+                _client.Self.Stand();
+            }
+
+            Logger.C("Bot is now standing on the ground.", Logger.MessageType.Regular);
+        }
         public static void Teleport(string regionName, Vector3 position)
         {
             if (_client.Network.Connected && _client.Self != null)

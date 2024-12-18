@@ -44,8 +44,11 @@ namespace SecondLifeBot
                 if (avatarLoaded)
                 {
                     avatarLoaded = false;
+                    BotManager.StandOnGround();
                     BotManager.Teleport(config.StartRegion, config.StartPosition);
-                    await objectScanner.StartPatrolAsync();
+
+                    if (config.Patroller) await objectScanner.StartPatrolAsync();
+                    
                 }
 
                 await Task.Delay(100);

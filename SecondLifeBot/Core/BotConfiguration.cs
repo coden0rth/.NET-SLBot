@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using OpenMetaverse;
+using System.Collections.Generic;
 
 namespace SecondLifeBot
 {
@@ -10,8 +12,9 @@ namespace SecondLifeBot
         public string Password { get; set; }
         public string StartRegion { get; set; }
         public Vector3 StartPosition { get; set; }
-        public List<Vector3> PatrolPoints { get; set; } = new List<Vector3>();
-        public List<UUID> AdminList { get; set; } = new List<UUID>();
-        public List<string> SearchHoverText { get; set; } = new List<string>();
+        public bool Patroller { get; set; }
+        public List<Vector3> PatrolPoints { get; set; }
+        public List<string> SearchHoverText { get; set; }
+        public List<UUID> AdminList { get; set; }
     }
 }
