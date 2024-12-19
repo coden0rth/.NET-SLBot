@@ -99,7 +99,7 @@ namespace SecondLifeBot.Modules
                     if (!string.IsNullOrEmpty(prim.Text) && prim.Text.IndexOf(criteria, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         Logger.C($"Detected Object Found: Name: {prim.Properties.Name}, Hover Text: '{prim.Text}', ID: {prim.ID}, Parent ID: {prim.ParentID}", Logger.MessageType.Alert);
-                        BotManager.SendIMToAdmins($"Matching Object Found: Name: {prim.Properties.Name}, Hover Text: '{prim.Text}', ID: {prim.ID}, Parent ID: {prim.ParentID}");
+                        BotManager.IM.SendIMToAdmins($"Matching Object Found: Name: {prim.Properties.Name}, Hover Text: '{prim.Text}', ID: {prim.ID}, Parent ID: {prim.ParentID}");
                     }
                 }
             }

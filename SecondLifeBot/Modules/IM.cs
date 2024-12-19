@@ -21,7 +21,7 @@ namespace SecondLifeBot.Modules
 
         private async Task HandleIMAsync(object sender, InstantMessageEventArgs e)
         {
-            Logger.C($"[{e.IM.FromAgentName}]: {e.IM.Message.Trim()}");
+            Logger.C($"[{e.IM.FromAgentName}]: {e.IM.Message.Trim()}", Logger.MessageType.Chat);
             if (!_adminList.Contains(e.IM.FromAgentID))
             {
                 Logger.C($"Unauthorized IM from {e.IM.FromAgentName}. Ignoring.", Logger.MessageType.Alert);
@@ -58,6 +58,21 @@ namespace SecondLifeBot.Modules
         public async Task SendIMAsync(UUID agentID, string message)
         {
             await Task.Run(() => _client.Self.InstantMessage(agentID, message));
+        }
+        public void SendIMToAdmins(string message)
+        {
+            if (BotManager.Config.AdminList == null || BotManager.Config.AdminList.Count == 0)
+            {
+                Logger.C("Admin list is empty or null.", Logger.MessageType.Alert);
+                return;
+            }
+
+            foreach (var adminUUID in BotManager.Config.AdminList)
+            {
+                _ = SendIMAsync(adminUUID, message);
+            }
+
+            Logger.C($"Message sent to all admins: {message}", Logger.MessageType.Info);
         }
     }
 }

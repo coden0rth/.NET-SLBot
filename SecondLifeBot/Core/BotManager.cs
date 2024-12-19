@@ -86,6 +86,25 @@ namespace SecondLifeBot
                 Logger.C("Player not found in the current region.", Logger.MessageType.Alert);
             }
         }
+        public static void TeleportToAdmin(UUID adminID)
+        {
+            Avatar adminAvatar = LookupAvatar(adminID);
+
+            if (adminAvatar != null)
+            {
+                Vector3 adminPosition = adminAvatar.Position;
+                string regionName = _client.Network.CurrentSim.Name;
+
+                Logger.C($"Teleporting to admin {adminAvatar.Name} at {regionName} ({adminPosition})", Logger.MessageType.Info);
+
+                _client.Self.Teleport(regionName, adminPosition);
+                Logger.C("Teleport successful.", Logger.MessageType.Regular);
+            }
+            else
+            {
+                Logger.C("Admin not found in the current region. Cannot teleport.", Logger.MessageType.Alert);
+            }
+        }
         public static void Teleport(string regionName, Vector3 position)
         {
             if (_client.Network.Connected && _client.Self != null)
@@ -107,33 +126,6 @@ namespace SecondLifeBot
                 Logger.C("Cannot teleport because the bot is not connected.", Logger.MessageType.Alert);
             }
         }
-
-        public static void SendIM(UUID targetUUID, string message)
-        {
-            if (targetUUID == UUID.Zero)
-            {
-                Logger.C("Invalid target UUID.", Logger.MessageType.Alert);
-                return;
-            }
-
-            _client.Self.InstantMessage(targetUUID, message);
-            Logger.C($"Sent IM to {targetUUID}: {message}", Logger.MessageType.Info);
-        }
-
-        public static void SendIMToAdmins(string message)
-        {
-            if (Config.AdminList == null || Config.AdminList.Count == 0)
-            {
-                Logger.C("Admin list is empty or null.", Logger.MessageType.Alert);
-                return;
-            }
-
-            foreach (var adminUUID in Config.AdminList)
-            {
-                SendIM(adminUUID, message);
-            }
-
-            Logger.C($"Message sent to all admins: {message}", Logger.MessageType.Info);
-        }
+       
     }
 }

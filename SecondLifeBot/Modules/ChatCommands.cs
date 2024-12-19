@@ -14,9 +14,7 @@ namespace SecondLifeBot.Modules
                     Logger.C("Processing 'cometome' command.", Logger.MessageType.Info);
                     await Task.Run(() => BotManager.WalkToPlayer(fromAgentID));
                     break;
-                default:
-                    Logger.C($"Unknown command received: {message}", Logger.MessageType.Info);
-                    break;
+              
             }
         }
     }
