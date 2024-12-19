@@ -227,13 +227,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\BotConfiguration.cs" />
     <Compile Include="Core\BotManager.cs" />
-    <Compile Include="Config\BotConfiguration.cs" />
     <Compile Include="Core\Loader.cs" />
-    <Compile Include="Core\Movement.cs" />
+    <Compile Include="Modules\IM.cs" />
+    <Compile Include="Modules\Movement.cs" />
     <Compile Include="Modules\ObjectScanner.cs" />
-    <Compile Include="Commands\Commands.cs" />
-    <Compile Include="Database\DBConfig.cs" />
+    <Compile Include="Modules\ChatCommands.cs" />
+    <Compile Include="Modules\PlayerScanner.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Core\LoginManager.cs" />
     <Compile Include="Program.cs" />

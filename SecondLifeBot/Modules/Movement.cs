@@ -28,7 +28,23 @@ namespace SecondLifeBot
         {
             _client = client;
         }
-     
+        public void StandOnGround()
+        {
+            if (_client.Self.Movement.Fly)
+            {
+                Logger.C("Bot is currently flying. Stopping fly mode...", Logger.MessageType.Info);
+                _client.Self.Movement.Fly = false;
+                _client.Self.Movement.SendUpdate();
+            }
+
+            if (_client.Self.SittingOn != 0)
+            {
+                Logger.C("Bot is sitting. Standing up...", Logger.MessageType.Info);
+                _client.Self.Stand();
+            }
+
+            Logger.C("Bot is now standing on the ground.", Logger.MessageType.Regular);
+        }
         public async Task StartManualMovement(Vector3 targetPosition, bool deanimate = false)
         {
             try

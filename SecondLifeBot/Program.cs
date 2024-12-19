@@ -12,11 +12,7 @@ namespace SecondLifeBot
     {
         static readonly GridClient client = new GridClient();
         static LoginManager loginManager;
-        static ObjectScanner objectScanner;
-        static Commands commands;
-        static Movement movement;
 
-        static BotConfiguration config;
 
         static bool running = true;
         static bool avatarLoaded = false;
@@ -24,29 +20,24 @@ namespace SecondLifeBot
         static async Task Main()
         {
             Logger.Init();
-            config = Loader.LoadConfiguration("Config/config.json");
-            movement = new Movement(client);
-            BotManager.Initialize(client, config, movement);
-            objectScanner = new ObjectScanner(client, movement, config.PatrolPoints, config.SearchHoverText);
-            commands = new Commands(client, config, objectScanner);
+            BotManager.Initialize(client);
             loginManager = new LoginManager(client);
-
             Settings.LOG_LEVEL = Helpers.LogLevel.None;
             client.Network.Disconnected += Network_Disconnected;
             client.Network.EventQueueRunning += Network_EventQueueRunning;
 
-            loginManager.Login(config.FirstName, config.LastName, config.Password);
+            loginManager.Login(BotManager.Config.FirstName, BotManager.Config.LastName, BotManager.Config.Password);
 
             while (running)
             {
                 if (avatarLoaded)
                 {
                     avatarLoaded = false;
-                    BotManager.StandOnGround();
-                    BotManager.Teleport(config.StartRegion, config.StartPosition);
+                    BotManager.Teleport(BotManager.Config.StartRegion, BotManager.Config.StartPosition);
+                    BotManager.Movement.StandOnGround();
+                    BotManager.PlayerScanner.StartScanning();
 
-                    if (config.Patroller) await objectScanner.StartPatrolAsync();
-                    
+
                 }
 
                 await Task.Delay(100);

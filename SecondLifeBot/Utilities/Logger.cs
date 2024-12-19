@@ -10,7 +10,8 @@ namespace SecondLifeBot
             Regular,
             Info,
             Warn,
-            Alert
+            Alert,
+            Chat
         }
         public static void C(string message, MessageType type = MessageType.Regular)
         {
@@ -38,7 +39,12 @@ namespace SecondLifeBot
 
                 case MessageType.Warn:
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"{prefix} {message}");
+                    Console.WriteLine($"{prefix} [WARN] {message}");
+                    break;
+
+                case MessageType.Chat:
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.WriteLine($"{prefix} [IM] {message}");
                     break;
             }
 
