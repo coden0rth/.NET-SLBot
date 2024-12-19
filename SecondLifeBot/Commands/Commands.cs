@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OpenMetaverse;
+using SecondLifeBot.Modules;
 
 namespace SecondLifeBot
 {

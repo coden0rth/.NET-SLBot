@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using OpenMetaverse;
 using System.Threading;
-
+using System.Threading.Tasks;
 
 namespace SecondLifeBot
 {
@@ -10,46 +10,38 @@ namespace SecondLifeBot
     {
         private static GridClient _client;
         private static BotConfiguration _config;
+        private static Movement _movement;
 
-        public static void Initialize(GridClient client, BotConfiguration config)
+        public static void Initialize(GridClient client, BotConfiguration config, Movement movement)
         {
             _client = client;
             _client.Self.Movement.Camera.Far = 1024f;
             _client.Self.Movement.SendUpdate();
             _config = config;
+            _movement = movement;
         }
-        public static void WalkToPlayer(UUID playerUUID)
+        public static Avatar LookupAvatar(UUID playerUUID)
         {
-            Avatar targetAvatar = null;
-
             foreach (var avatar in _client.Network.CurrentSim.ObjectsAvatars.Values)
             {
                 if (avatar.ID == playerUUID)
                 {
-                    targetAvatar = avatar;
-                    break;
+                    return avatar;
                 }
             }
+
+            return null;
+        }
+        public static async Task WalkToPlayer(UUID playerUUID)
+        {
+            Avatar targetAvatar = LookupAvatar(playerUUID);
 
             if (targetAvatar != null)
             {
                 Vector3 playerPosition = targetAvatar.Position;
                 Logger.C($"Walking to player at position: {playerPosition}", Logger.MessageType.Info);
 
-                StandOnGround();
-
-                _client.Self.Movement.TurnToward(playerPosition);
-                _client.Self.Movement.AtPos = true;
-
-                while (Vector3.Distance(_client.Self.SimPosition, playerPosition) > 2.0f)
-                {
-                    _client.Self.Movement.SendUpdate();
-                    System.Threading.Thread.Sleep(100);
-                }
-
-                _client.Self.Movement.AtPos = false;
-                _client.Self.Movement.SendUpdate();
-                Logger.C("Arrived at the player's location.", Logger.MessageType.Info);
+                await _movement.StartManualMovement(playerPosition);
             }
             else
             {

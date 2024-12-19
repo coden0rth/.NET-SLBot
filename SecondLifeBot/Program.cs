@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using LibreMetaverse;
 using OpenMetaverse;
+using SecondLifeBot.Modules;
 
 namespace SecondLifeBot
 {
@@ -27,8 +25,8 @@ namespace SecondLifeBot
         {
             Logger.Init();
             config = Loader.LoadConfiguration("Config/config.json");
-            BotManager.Initialize(client, config);
             movement = new Movement(client);
+            BotManager.Initialize(client, config, movement);
             objectScanner = new ObjectScanner(client, movement, config.PatrolPoints, config.SearchHoverText);
             commands = new Commands(client, config, objectScanner);
             loginManager = new LoginManager(client);

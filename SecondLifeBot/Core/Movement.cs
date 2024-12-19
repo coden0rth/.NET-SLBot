@@ -28,58 +28,76 @@ namespace SecondLifeBot
         {
             _client = client;
         }
-
+     
         public async Task StartManualMovement(Vector3 targetPosition, bool deanimate = false)
         {
-
-            lock (_client.Self.Movement)
+            try
             {
-                if (_client.Self.Movement.SitOnGround || !_client.Self.SittingOn.Equals(0))
+                lock (_client.Self.Movement)
                 {
-                    _client.Self.Stand();
-                }
-
-                if (deanimate)
-                {
-                    foreach (var animation in _client.Self.SignaledAnimations.Keys)
+                    if (_client.Self.Movement.SitOnGround || !_client.Self.SittingOn.Equals(0))
                     {
-                        if (!LindenAnimations.Contains(animation))
+                        _client.Self.Stand();
+                    }
+
+                    if (deanimate)
+                    {
+                        foreach (var animation in _client.Self.SignaledAnimations.Keys)
                         {
-                            _client.Self.AnimationStop(animation, true);
+                            if (!LindenAnimations.Contains(animation))
+                            {
+                                _client.Self.AnimationStop(animation, true);
+                            }
                         }
                     }
+
+                    _client.Self.Movement.AtPos = true;
                 }
 
-                _client.Self.Movement.AtPos = true;
+                Logger.C("Starting movement towards target.", Logger.MessageType.Info);
+                await MoveTowardsTargetAsync(targetPosition);
             }
-
-            await MoveTowardsTargetAsync(targetPosition);
+            catch (Exception ex)
+            {
+                Logger.C($"Error during movement: {ex.Message}", Logger.MessageType.Alert);
+            }
         }
 
         private async Task MoveTowardsTargetAsync(Vector3 targetPosition)
         {
             while (Vector3.Distance(_client.Self.SimPosition, targetPosition) > ArrivalThreshold)
             {
-                AdjustFacingDirection(targetPosition);
-
-                Vector3 stepDirection = Vector3.Normalize(targetPosition - _client.Self.SimPosition) * 0.5f;
-                Vector3 nextPosition = _client.Self.SimPosition + stepDirection;
-
-                if (IsPositionValid(nextPosition))
+                try
                 {
-                    _client.Self.Movement.AtPos = true;
-                    _client.Self.Movement.SendUpdate();
-                }
-                else
-                {
-                    Logger.C("Invalid position detected. Adjusting path...", Logger.MessageType.Warn);
-                }
+                    AdjustFacingDirection(targetPosition);
 
-                await Task.Delay(DelayBetweenSteps);
+                    float distance = Vector3.Distance(_client.Self.SimPosition, targetPosition);
+                    float stepSize = Math.Min(0.5f, distance / 2.0f); // Dynamic step size
+
+                    Vector3 stepDirection = Vector3.Normalize(targetPosition - _client.Self.SimPosition) * stepSize;
+                    Vector3 nextPosition = _client.Self.SimPosition + stepDirection;
+
+                    if (IsPositionValid(nextPosition))
+                    {
+                        _client.Self.Movement.AtPos = true;
+                        _client.Self.Movement.SendUpdate();
+                        Logger.C($"Moving to position: {nextPosition}", Logger.MessageType.Info);
+                    }
+                    else
+                    {
+                        Logger.C("Invalid position detected. Adjusting path...", Logger.MessageType.Warn);
+                    }
+
+                    await Task.Delay(DelayBetweenSteps);
+                }
+                catch (Exception ex)
+                {
+                    Logger.C($"Movement step error: {ex.Message}", Logger.MessageType.Alert);
+                    break;
+                }
             }
 
-            _client.Self.Movement.AtPos = false;
-            _client.Self.Movement.SendUpdate();
+            StopMovement();
         }
 
         private void AdjustFacingDirection(Vector3 targetPosition)
@@ -96,7 +114,7 @@ namespace SecondLifeBot
 
         public void StopMovement()
         {
-            Logger.C("Stopping movement.", Logger.MessageType.Warn);
+            Logger.C("Stopping movement.", Logger.MessageType.Info);
 
             lock (_client.Self.Movement)
             {
@@ -104,7 +122,7 @@ namespace SecondLifeBot
                 _client.Self.Movement.SendUpdate();
             }
 
-            Logger.C("Movement stopped.", Logger.MessageType.Warn);
+            Logger.C("Movement stopped.", Logger.MessageType.Info);
         }
     }
 }
