@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OpenMetaverse;
 
-namespace SecondLifeBot
+namespace SecondLifeBot.Modules
 {
     public class ObjectScanner
     {
