@@ -1,10 +1,8 @@
-﻿using System;
+﻿using OpenMetaverse;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using LibreMetaverse;
-using OpenMetaverse;
-using SecondLifeBot.Modules;
 
 namespace SecondLifeBot
 {

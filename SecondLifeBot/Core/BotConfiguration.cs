@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using OpenMetaverse;
+﻿using OpenMetaverse;
 using System.Collections.Generic;
 
 namespace SecondLifeBot

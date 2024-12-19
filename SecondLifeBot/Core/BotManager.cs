@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenMetaverse;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using OpenMetaverse;
 using SecondLifeBot.Modules;
+using System;
+using System.Threading.Tasks;
 
 
 namespace SecondLifeBot
@@ -26,7 +24,7 @@ namespace SecondLifeBot
             Logger.C("Configuration loaded successfully.", Logger.MessageType.Regular);
 
             _client = client;
-           
+
             _client.Self.Movement.Camera.Far = 1024f;
             _client.Self.Movement.SendUpdate();
 

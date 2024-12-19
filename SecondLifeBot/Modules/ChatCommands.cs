@@ -1,6 +1,5 @@
-﻿using System;
+﻿using OpenMetaverse;
 using System.Threading.Tasks;
-using OpenMetaverse;
 
 namespace SecondLifeBot.Modules
 {
@@ -18,7 +17,7 @@ namespace SecondLifeBot.Modules
                     Logger.C("Processing 'teleporttome' command.", Logger.MessageType.Info);
                     await Task.Run(() => BotManager.TeleportToAdmin(fromAgentID));
                     break;
-               
+
             }
         }
     }

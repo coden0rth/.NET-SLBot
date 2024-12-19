@@ -1,6 +1,5 @@
-﻿using System;
+﻿using OpenMetaverse;
 using System.Collections.Generic;
-using OpenMetaverse;
 using System.Threading.Tasks;
 
 namespace SecondLifeBot.Modules
