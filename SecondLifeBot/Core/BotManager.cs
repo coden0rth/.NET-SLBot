@@ -26,6 +26,7 @@ namespace SecondLifeBot
             Logger.C("Configuration loaded successfully.", Logger.MessageType.Regular);
 
             _client = client;
+           
             _client.Self.Movement.Camera.Far = 1024f;
             _client.Self.Movement.SendUpdate();
 
@@ -95,16 +96,31 @@ namespace SecondLifeBot
                 Vector3 adminPosition = adminAvatar.Position;
                 string regionName = _client.Network.CurrentSim.Name;
 
+                if (!IsTeleportAllowedInRegion(_client.Network.CurrentSim))
+                {
+                    Logger.C("Teleportation is not allowed in this region. Cannot teleport.", Logger.MessageType.Alert);
+                    return;
+                }
+
                 Logger.C($"Teleporting to admin {adminAvatar.Name} at {regionName} ({adminPosition})", Logger.MessageType.Info);
 
-                _client.Self.Teleport(regionName, adminPosition);
-                Logger.C("Teleport successful.", Logger.MessageType.Regular);
+                bool teleportSuccess = _client.Self.Teleport(regionName, adminPosition);
+
+                if (teleportSuccess)
+                {
+                    Logger.C("Teleport successful.", Logger.MessageType.Regular);
+                }
+                else
+                {
+                    Logger.C("Teleport failed. Please check region permissions or bot status.", Logger.MessageType.Alert);
+                }
             }
             else
             {
                 Logger.C("Admin not found in the current region. Cannot teleport.", Logger.MessageType.Alert);
             }
         }
+
         public static void Teleport(string regionName, Vector3 position)
         {
             if (_client.Network.Connected && _client.Self != null)
@@ -126,6 +142,28 @@ namespace SecondLifeBot
                 Logger.C("Cannot teleport because the bot is not connected.", Logger.MessageType.Alert);
             }
         }
-       
+        private static bool IsTeleportAllowedInRegion(Simulator sim)
+        {
+            if (sim == null)
+            {
+                Logger.C("Simulator is null. Cannot determine teleport permissions.", Logger.MessageType.Alert);
+                return false;
+            }
+
+            if (sim.Access == SimAccess.Down)
+            {
+                Logger.C("Region is down or unavailable. Teleport not allowed.", Logger.MessageType.Alert);
+                return false;
+            }
+            if (!sim.Flags.HasFlag(RegionFlags.AllowDirectTeleport))
+            {
+                Logger.C("Teleport disabled. Reset to home on teleport...", Logger.MessageType.Alert);
+
+                return false;
+            }
+            return true;
+        }
+
+
     }
 }

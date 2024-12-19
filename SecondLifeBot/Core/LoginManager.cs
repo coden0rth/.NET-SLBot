@@ -17,7 +17,7 @@ namespace SecondLifeBot
             LoginParams loginParams = _client.Network.DefaultLoginParams(firstName, lastName, password, "SecondLifeBot", "1.0");
 
             _client.Network.LoginProgress += LoginProgressHandler;
-            Logger.C("Logging in...", Logger.MessageType.Warn);
+            Logger.C("Logging in...", Logger.MessageType.Info);
             _client.Network.BeginLogin(loginParams);
         }
 

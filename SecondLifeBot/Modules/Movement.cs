@@ -116,7 +116,7 @@ namespace SecondLifeBot
             StopMovement();
         }
 
-        private void AdjustFacingDirection(Vector3 targetPosition)
+        public void AdjustFacingDirection(Vector3 targetPosition)
         {
             _client.Self.Movement.TurnToward(targetPosition);
         }

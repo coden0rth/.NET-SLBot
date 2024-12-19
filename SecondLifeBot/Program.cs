@@ -51,7 +51,7 @@ namespace SecondLifeBot
         {
             if (!avatarLoaded)
             {
-                Logger.C("Event queue is running. Waiting for avatar appearance to load...", Logger.MessageType.Warn);
+                Logger.C("Event queue is running. Waiting for avatar appearance to load...", Logger.MessageType.Info);
                 new Thread(CheckAvatarLoaded).Start();
             }
         }
